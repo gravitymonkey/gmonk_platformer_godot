@@ -1,0 +1,36 @@
+New project
+
+Setup the environment stuff
+Root Node2D:
+   Sprite
+     StaticBody2D
+	    CollisionShape2D
+	
+Drag the png onto the texture of the Sprite, then set the shape on CollisionShape2D to be a rectangle, extents to 32x32.  Go back to the Sprite, and set Region: Enabled On, Region: Rect, 64x64.  Duplicate the Sprite as needed and adjust x,y to get new images from the original sheet.  Rename the root Node2D to be Tiles, save the scene, and then go the menu: Scene -> Convert To -> TileSet
+
+******
+
+New Scene: Named World
+Root "World" (node2d)
+   TileMap (drag the tile map you made in the previous step)
+  
+Draw your sprite from the tile map all over the scene
+
+*****
+
+New Scene - 
+
+Root KinematicBody2D:
+  CollisionShape2D
+  Sprite
+  AnimationPlayer
+  
+Add a rect on the CollisionShape2D, rename the root "Player".
+
+to Menu: Project -> Project Settings -> Input Map and sets key bindings 
+Add: move_left, move_right, jump as new actions, and map them to A, D, Space, respectively.
+
+Then click on Sprite, and add the sprite sheet to the texture (drag it over texture).
+change the region to enabled in the texture
+
+*******
