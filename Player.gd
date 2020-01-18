@@ -1,8 +1,9 @@
 extends KinematicBody2D
 
 const MAX_GRAVITY = 500
-const GRAVITY = 15
-const DEFAULT_JUMP_FORCE = 200
+const GRAVITY = 50
+const DEFAULT_JUMP_FORCE = 350
+
 const X_SLOWDOWN = 0.9
 const X_VELO = 40
 const MAX_SPEED = 200
@@ -39,21 +40,26 @@ func gather_state():
 
 func clear_state():
 
-	if __user_state["left_now"]:
-		__user_state["accel"] -= 1
-		if __user_state["accel"] < -MAX_SPEED:
-			 __user_state["accel"] = -MAX_SPEED
+	if __user_state["left_now"] && __user_state["right_now"]:
+		__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN		
 	else:
-		if !__user_state["right_now"]:
-			__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN
-
-	if __user_state["right_now"]:
-		__user_state["accel"] += 1
-		if __user_state["accel"] > MAX_SPEED:
-			 __user_state["accel"] = MAX_SPEED
-	else:
-		if !__user_state["left_now"]:
-			__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN
+		if __user_state["left_now"]:
+			__user_state["accel"] -= 1
+			if __user_state["accel"] < -MAX_SPEED:
+				 __user_state["accel"] = -MAX_SPEED
+		else:
+			if !__user_state["right_now"]:
+				__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN
+	
+		if __user_state["right_now"]:
+			__user_state["accel"] += 1
+			if __user_state["accel"] > MAX_SPEED:
+				 __user_state["accel"] = MAX_SPEED
+			#elif __user_state["accel"] < 0:
+			#	__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN
+		else:
+			if !__user_state["left_now"]:
+				__user_state["accel"] = __user_state["accel"] * X_SLOWDOWN
 			
 		
 	if __user_state["jump_now"]:
@@ -88,7 +94,6 @@ func _physics_process(delta):
 				
 						
 	var x_velocity = 0
-	print(current_accel)
 
 	if current_accel > 0 && current_accel < X_VELO:
 		current_accel = X_VELO
@@ -106,6 +111,10 @@ func _physics_process(delta):
 	if Input.is_action_pressed("jump") && is_on_floor():
 		u["y_velocity"] = -DEFAULT_JUMP_FORCE 
 		play_anim("jump")
+	elif Input.is_action_pressed("jump") && (u["jump_sum"] > 5 && u["jump_sum"] < 10):
+		u["y_velocity"] = -DEFAULT_JUMP_FORCE 
+		play_anim("jump")
+	print(u["y_velocity"])
 			
 	move_and_slide(Vector2(x_velocity, u["y_velocity"]), Vector2(0,-1))
 	clear_state()
