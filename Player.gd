@@ -7,10 +7,9 @@ const DEFAULT_JUMP_FORCE = 350
 const X_SLOWDOWN = 0.9
 const X_VELO = 40
 const MAX_SPEED = 200
-const COUNT_DEPRESSED = 30 
-var ACCEL_FACTOR = 20 #lower is faster
 
 onready var __user_state = {}
+onready var MAX_JUMP = 8  # should be no lower than 5
 
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
@@ -30,6 +29,15 @@ func gather_state():
 	__user_state["left_now"] = Input.is_action_pressed("move_left") 
 	__user_state["right_now"] = Input.is_action_pressed("move_right") 
 	__user_state["jump_now"] = Input.is_action_pressed("jump")
+
+
+	# handling simple jumps only	
+	# 5 seems to be the right number of max renders that captures a "tap" of up/jump buttons
+	if Input.is_action_pressed("jump") && is_on_floor():
+		__user_state["y_velocity"] = -DEFAULT_JUMP_FORCE 
+	elif Input.is_action_pressed("jump") && (__user_state["jump_sum"] > 5 && __user_state["jump_sum"] < MAX_JUMP):
+		__user_state["y_velocity"] = -(DEFAULT_JUMP_FORCE * 0.9)
+
 	
 	# default gravity behavior
 	__user_state["y_velocity"] += GRAVITY
@@ -77,46 +85,32 @@ func _physics_process(delta):
 	if current_accel > -1.0 && current_accel < 1.0:
 		current_accel = 0
 	
-	if u["right_now"] && u["is_on_floor"]:
-		if sprite.flip_h:
-			sprite.flip_h = false
-		play_anim("walk")		
-	elif u["left_now"] && u["is_on_floor"]:
-		if !sprite.flip_h:
-			sprite.flip_h = true
-		play_anim("walk")
-		
-	
-		
 	if current_accel == 0:
 		if u["is_on_floor"]:
 			play_anim("stand")
-				
-						
-	var x_velocity = 0
+	else:
+		if u["right_now"] && u["is_on_floor"]:
+			if sprite.flip_h:
+				sprite.flip_h = false
+			play_anim("walk")		
+		elif u["left_now"] && u["is_on_floor"]:
+			if !sprite.flip_h:
+				sprite.flip_h = true
+			play_anim("walk")
+
 
 	if current_accel > 0 && current_accel < X_VELO:
 		current_accel = X_VELO
 	elif current_accel < 0 && current_accel > -X_VELO:
 		current_accel = -X_VELO
 	
-		
-	x_velocity = current_accel
-	
 	# just to catch the landing from a jump
 	if anim_player.current_animation == "jump" && is_on_floor():
 		play_anim("stand")
-			
-	# handling simple jumps only	
-	if Input.is_action_pressed("jump") && is_on_floor():
-		u["y_velocity"] = -DEFAULT_JUMP_FORCE 
+	elif u["jump_sum"] > 1:
 		play_anim("jump")
-	elif Input.is_action_pressed("jump") && (u["jump_sum"] > 5 && u["jump_sum"] < 10):
-		u["y_velocity"] = -DEFAULT_JUMP_FORCE 
-		play_anim("jump")
-	print(u["y_velocity"])
-			
-	move_and_slide(Vector2(x_velocity, u["y_velocity"]), Vector2(0,-1))
+		
+	move_and_slide(Vector2(current_accel, u["y_velocity"]), Vector2(0,-1))
 	clear_state()
 	
 func play_anim(anim_name):
