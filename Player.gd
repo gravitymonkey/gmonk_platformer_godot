@@ -33,7 +33,7 @@ func gather_state():
 
 	# handling simple jumps only	
 	# 5 seems to be the right number of max renders that captures a "tap" of up/jump buttons
-	if Input.is_action_pressed("jump") && is_on_floor():
+	if Input.is_action_pressed("jump") && is_on_floor() && __user_state["jump_sum"] == 1:
 		__user_state["y_velocity"] = -DEFAULT_JUMP_FORCE 
 	elif Input.is_action_pressed("jump") && (__user_state["jump_sum"] > 5 && __user_state["jump_sum"] < MAX_JUMP):
 		__user_state["y_velocity"] = -(DEFAULT_JUMP_FORCE * 0.9)

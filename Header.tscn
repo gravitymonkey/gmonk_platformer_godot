@@ -16,7 +16,7 @@ size_flags_vertical = 3
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
 margin_right = 480.0
-margin_bottom = 28.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 480, 28 )
 color = Color( 0, 0, 0, 0 )
 
@@ -27,9 +27,9 @@ rect_min_size = Vector2( 480, 20 )
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="PowerCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
+[node name="LeftCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
 
-[node name="PowerColorRect" type="ColorRect" parent="BackgroundColor/HBox/PowerCanvas"]
+[node name="LeftColorRect" type="ColorRect" parent="BackgroundColor/HBox/LeftCanvas"]
 margin_right = 160.0
 margin_bottom = 20.0
 grow_horizontal = 2
@@ -37,7 +37,7 @@ grow_vertical = 0
 rect_min_size = Vector2( 160, 20 )
 color = Color( 0, 0, 0, 0.0784314 )
 
-[node name="PowerLabel" type="Label" parent="BackgroundColor/HBox/PowerCanvas/PowerColorRect"]
+[node name="LeftLabel" type="Label" parent="BackgroundColor/HBox/LeftCanvas/LeftColorRect"]
 margin_left = 10.0
 margin_right = 160.0
 margin_bottom = 20.0
@@ -47,9 +47,9 @@ custom_colors/font_color = Color( 0.0392157, 0.666667, 0.0392157, 1 )
 text = "POWER"
 valign = 1
 
-[node name="ScoreCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
+[node name="CenterCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
 
-[node name="ScoreColorRect" type="ColorRect" parent="BackgroundColor/HBox/ScoreCanvas"]
+[node name="CenterColorRect" type="ColorRect" parent="BackgroundColor/HBox/CenterCanvas"]
 margin_left = 190.0
 margin_right = 290.0
 margin_bottom = 20.0
@@ -58,7 +58,7 @@ grow_vertical = 0
 rect_min_size = Vector2( 100, 20 )
 color = Color( 0, 0, 0, 0.0784314 )
 
-[node name="ScoreLabel" type="Label" parent="BackgroundColor/HBox/ScoreCanvas/ScoreColorRect"]
+[node name="CenterLabel" type="Label" parent="BackgroundColor/HBox/CenterCanvas/CenterColorRect"]
 margin_right = 100.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 2 )
@@ -66,9 +66,9 @@ text = "SCORE"
 align = 1
 valign = 1
 
-[node name="LivesCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
+[node name="RightCanvas" type="CanvasLayer" parent="BackgroundColor/HBox"]
 
-[node name="LivesColorRect" type="ColorRect" parent="BackgroundColor/HBox/LivesCanvas"]
+[node name="RightColorRect" type="ColorRect" parent="BackgroundColor/HBox/RightCanvas"]
 margin_left = 320.0
 margin_right = 470.0
 margin_bottom = 20.0
@@ -77,7 +77,7 @@ grow_vertical = 0
 rect_min_size = Vector2( 150, 20 )
 color = Color( 0, 0, 0, 0.0784314 )
 
-[node name="LivesLabel" type="Label" parent="BackgroundColor/HBox/LivesCanvas/LivesColorRect"]
+[node name="RightLabel" type="Label" parent="BackgroundColor/HBox/RightCanvas/RightColorRect"]
 margin_right = 150.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 150, 20 )
