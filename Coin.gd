@@ -15,5 +15,6 @@ func _ready():
 
 func _on_Coin_body_entered(body):
 	print("on coin entered " + str(body))
+	$"../AudioPlayer".play()
 	queue_free()
 	pass # Replace with function body.
