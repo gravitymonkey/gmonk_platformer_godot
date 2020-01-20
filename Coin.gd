@@ -1,20 +1,19 @@
 extends Area2D
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+onready var audio = $"AudioPlayer"
+var consumed = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if consumed && !audio.playing:
+		queue_free()
+	pass
 
 
 func _on_Coin_body_entered(body):
 	print("on coin entered " + str(body))
-	$"../AudioPlayer".play()
-	queue_free()
-	pass # Replace with function body.
+	$"../Player".set_coin()
+	audio.play()
+	consumed = true

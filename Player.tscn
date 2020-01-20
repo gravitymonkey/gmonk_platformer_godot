@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player.png" type="Texture" id=2]
-[ext_resource path="res://Player.tres" type="Animation" id=3]
+[ext_resource path="res://assets/jump.wav" type="AudioStream" id=3]
+[ext_resource path="res://Player.tres" type="Animation" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6.5, 5.125 )
@@ -51,10 +52,14 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 64, 0, 16, 16 )
 
+[node name="AudioJump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -8.647
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/jump = SubResource( 2 )
 anims/stand = SubResource( 3 )
-anims/walk = ExtResource( 3 )
+anims/walk = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

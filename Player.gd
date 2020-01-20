@@ -10,6 +10,7 @@ const MAX_SPEED = 200
 
 onready var __user_state = {}
 onready var MAX_JUMP = 8  # should be no lower than 5
+onready var coin = 0
 
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
@@ -107,8 +108,12 @@ func _physics_process(delta):
 	# just to catch the landing from a jump
 	if anim_player.current_animation == "jump" && is_on_floor():
 		play_anim("stand")
+	elif u["jump_sum"] == 1:
+		$"AudioJump".play()
 	elif u["jump_sum"] > 1:
 		play_anim("jump")
+		
+		
 		
 	move_and_slide(Vector2(current_accel, u["y_velocity"]), Vector2(0,-1))
 	clear_state()
@@ -117,3 +122,9 @@ func play_anim(anim_name):
 	if anim_player.is_playing() and anim_player.current_animation == anim_name:
 		return
 	anim_player.play(anim_name)
+	
+func set_coin():
+	coin += 1
+	
+
+	

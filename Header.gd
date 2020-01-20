@@ -9,5 +9,4 @@ func _ready():
 	
 func _process(delta):
 	# just an example of how to connect the values
-	var max_speed = $"../../Player".X_VELO 
-	left_label.text = str(max_speed)
+	left_label.text = str($"../../Player".coin)
