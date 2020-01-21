@@ -28,6 +28,7 @@ settings/stdout/verbose_stdout=true
 
 window/size/width=480
 window/size/height=480
+window/size/resizable=false
 
 [input]
 

@@ -110,6 +110,7 @@ func _physics_process(delta):
 		play_anim("stand")
 	elif u["jump_sum"] == 1:
 		$"AudioJump".play()
+		print(($"../Player").position)
 	elif u["jump_sum"] > 1:
 		play_anim("jump")
 		
@@ -124,6 +125,8 @@ func play_anim(anim_name):
 	anim_player.play(anim_name)
 	
 func set_coin():
+	if coin < 6: # limit to how much power we add to the jump
+		MAX_JUMP = MAX_JUMP + 5
 	coin += 1
 	
 

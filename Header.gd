@@ -10,3 +10,4 @@ func _ready():
 func _process(delta):
 	# just an example of how to connect the values
 	left_label.text = str($"../../Player".coin)
+	pass
