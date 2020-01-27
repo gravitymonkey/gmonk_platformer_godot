@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
 const MAX_GRAVITY = 500
-const GRAVITY = 50
+const FIXED_GRAVITY = 50
+onready var GRAVITY = FIXED_GRAVITY
 const DEFAULT_JUMP_FORCE = 350
 
 const X_SLOWDOWN = 0.9
@@ -20,6 +21,7 @@ func _ready():
 	__user_state["left_now"] = false
 	__user_state["right_now"] = false
 	__user_state["jump_now"] = false
+	__user_state["climbing"] = false
 	__user_state["accel"] = 0
 	__user_state["jump_sum"] = 0
 	__user_state["y_velocity"] = 0
@@ -40,10 +42,19 @@ func gather_state():
 		__user_state["y_velocity"] = -(DEFAULT_JUMP_FORCE * 0.9)
 
 	
-	# default gravity behavior
-	__user_state["y_velocity"] += GRAVITY
-	if __user_state["y_velocity"] > MAX_GRAVITY:
-		__user_state["y_velocity"] = MAX_GRAVITY
+	if (__user_state['climbing'] == true):
+		if (__user_state["jump_sum"] > 0):			
+			__user_state["y_velocity"] = -1 * X_VELO
+			GRAVITY = 0
+		else:			
+			__user_state["y_velocity"] = 0
+			GRAVITY = FIXED_GRAVITY
+	else:
+		# default gravity behavior
+		GRAVITY = FIXED_GRAVITY
+		__user_state["y_velocity"] += GRAVITY
+		if __user_state["y_velocity"] > MAX_GRAVITY:
+			__user_state["y_velocity"] = MAX_GRAVITY
 	
 	return __user_state
 
@@ -109,11 +120,17 @@ func _physics_process(delta):
 	if anim_player.current_animation == "jump" && is_on_floor():
 		play_anim("stand")
 	elif u["jump_sum"] == 1:
-		$"AudioJump".play()
-		print(($"../Player").position)
+		if u["climbing"] == false:
+			$"AudioJump".play()
+			print(($"../Player").position)
 	elif u["jump_sum"] > 1:
-		play_anim("jump")
-		
+		if u["climbing"] == false:
+			play_anim("jump")
+		else:
+			play_anim("climb")
+	elif u["jump_sum"] == 0:
+		if u["climbing"] == true:
+			play_anim("hang_on")
 		
 		
 	move_and_slide(Vector2(current_accel, u["y_velocity"]), Vector2(0,-1))
@@ -129,5 +146,10 @@ func set_coin():
 		MAX_JUMP = MAX_JUMP + 5
 	coin += 1
 	
+func _on_Vine_body_entered(body):
+	print("entered vine " + str(body))
+	__user_state['climbing'] = true
 
-	
+func _on_Vine_body_exited(body):
+	print("exited vine " + str(body))
+	__user_state['climbing'] = false

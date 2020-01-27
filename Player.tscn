@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player.png" type="Texture" id=2]
@@ -7,6 +7,40 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6.5, 5.125 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "climb"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 96, 0, 16, 16 ), Rect2( 80, 0, 16, 16 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "hang_on"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 112, 0, 16, 16 ), Rect2( 128, 0, 16, 16 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "jump"
@@ -50,13 +84,15 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 region_enabled = true
-region_rect = Rect2( 64, 0, 16, 16 )
+region_rect = Rect2( 128, 0, 16, 16 )
 
 [node name="AudioJump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 volume_db = -8.647
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/climb = SubResource( 4 )
+anims/hang_on = SubResource( 5 )
 anims/jump = SubResource( 2 )
 anims/stand = SubResource( 3 )
 anims/walk = ExtResource( 4 )
